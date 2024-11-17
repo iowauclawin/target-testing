@@ -9,11 +9,14 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.commands.swerve.CrabDrive;
 import frc.robot.commands.swerve.SwerveTeleop;
 import frc.robot.commands.swerve.TestFourModules;
+import frc.robot.commands.targeting.Alignment;
 import frc.robot.subsystems.swerve.SwerveDrive;
 import frc.robot.subsystems.swerve.SwerveModuleIO;
 import frc.robot.subsystems.swerve.SwerveModuleIOSim;
 import frc.robot.subsystems.swerve.SwerveModuleIOSparkMax;
+import frc.robot.subsystems.targeting.Vision;
 
+import org.photonvision.PhotonCamera;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -74,9 +77,19 @@ public class RobotContainer {
   // Empty CrabDrive object
   private CrabDrive crabDrive;
 
+ 
+
+  private InitializeAutoPaths autoPaths;
+
 
   // Field centric toggle - true for field centric, false for robot centric
   private boolean fieldCentricToggle = true;
+
+  private PhotonCamera camera;
+
+  private Vision vision;
+
+  private Alignment alignment;
 
 
   public RobotContainer() {
@@ -90,6 +103,13 @@ public class RobotContainer {
     
     // Construct all other things
     this.configureBindings();
+
+
+    camera=  new PhotonCamera("Microsoft_LifeCam_HD-3000 (1)");
+
+    vision = new Vision(camera);
+
+    alignment = new Alignment(vision);
 
 
   }
@@ -193,9 +213,11 @@ public class RobotContainer {
   }
 
   public Command getAutonomousCommand() {
-    return null;
+    return autoPaths.getAutonomousCommand();
     
   }
+
+
 
 
   public void initCommandInTeleop() {
