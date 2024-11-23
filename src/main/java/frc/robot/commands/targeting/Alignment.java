@@ -1,5 +1,6 @@
 package frc.robot.commands.targeting;
 
+
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -11,6 +12,7 @@ public class Alignment extends Command {
     Vision vision;
     SwerveDrive swerve;
     boolean isAligned;
+<<<<<<< Updated upstream
     double[] toleranceArray = {-0.5, 0.5}; //index 0 is bottom range, index 1 is highest possible value to be considered aligned
     PIDController pid = new PIDController(0, 0 , 0); //TODO figure out PID constants por favor
 
@@ -20,6 +22,14 @@ public class Alignment extends Command {
         this.swerve = swerve;
         addRequirements(this.vision, this.swerve);
         pid.setTolerance(0.5);
+=======
+    PIDController pid = new PIDController(0, 0 , 0); //TODO figure out PID constants por favor
+
+    public Alignment(SwerveDrive swerve, Vision vision) {
+        this.vision = vision;
+        this.swerve = swerve;
+        addRequirements(this.vision, this.swerve);
+>>>>>>> Stashed changes
     }
     
     @Override
@@ -52,6 +62,7 @@ public class Alignment extends Command {
     //THE FOLLOWING CODE IS WITHOUT PID, IF TESTING PID UNCOMMENT OUT THE OTHER EXECUTE METHOD (and comment this execute() method out)
     @Override
     public void execute() {
+<<<<<<< Updated upstream
         if (vision.targetDetected()) {
             if (vision.getYaw() < toleranceArray[0]) {
                 swerve.drive(new Translation2d(0, 0), 1, false, false);
@@ -63,6 +74,11 @@ public class Alignment extends Command {
 
             else {
                 isAligned = true;
+=======
+        if(vision.targetDetected()){ //positive yaw, you rotate clockwise and negative yaw, you rotate counterclockwise
+            if(vision.getYaw() < 0){
+                swerve.drive(new Translation2d(0, 0), 0, false, false);
+>>>>>>> Stashed changes
             }
         }
     }
