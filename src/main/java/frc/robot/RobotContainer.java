@@ -4,8 +4,7 @@ import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-
-
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.swerve.CrabDrive;
 import frc.robot.commands.swerve.SwerveTeleop;
 import frc.robot.commands.swerve.TestFourModules;
@@ -109,7 +108,7 @@ public class RobotContainer {
 
     vision = new Vision(camera);
 
-    alignment = new Alignment(vision);
+    alignment = new Alignment(swerve, vision);
 
 
   }
@@ -213,7 +212,11 @@ public class RobotContainer {
   }
 
   public Command getAutonomousCommand() {
-    return autoPaths.getAutonomousCommand();
+    return 
+    new SequentialCommandGroup(
+      autoPaths.getAutonomousCommand(), 
+      alignment
+      );
     
   }
 
